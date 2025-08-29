@@ -17,23 +17,34 @@ export const useRecipeActions = (): UseRecipeActionsReturn => {
   const addIngredientsToList = async (listId: string, ingredients: string[]): Promise<boolean> => {
     setIsProcessing(true);
     try {
-      // Add ingredients one by one using the service's addItemToList method
-      const promises = ingredients.map((ingredient, index) => 
-        service.addItemToList({
+      console.log('🍳 Adding ingredients to list:', { listId, ingredients });
+      
+      // Add ingredients sequentially to avoid race conditions
+      for (let i = 0; i < ingredients.length; i++) {
+        const ingredient = ingredients[i];
+        const itemId = generateItemId();
+        
+        console.log(`🍳 Adding ingredient ${i + 1}/${ingredients.length}:`, { ingredient, itemId });
+        
+        const success = await service.addItemToList({
           listId,
           itemName: ingredient,
-          clientItemId: generateItemId(),
+          clientItemId: itemId,
           quantity: 1,
           unit: '',
           notes: ''
-        })
-      );
-
-      const results = await Promise.all(promises);
-      const success = results.every(result => result);
-      return success;
+        });
+        
+        if (!success) {
+          console.error(`🍳 Failed to add ingredient: ${ingredient}`);
+          return false;
+        }
+      }
+      
+      console.log('🍳 All ingredients added successfully');
+      return true;
     } catch (error) {
-      console.error('Error adding ingredients to list:', error);
+      console.error('🍳 Error adding ingredients to list:', error);
       return false;
     } finally {
       setIsProcessing(false);
