@@ -15,6 +15,7 @@ interface AuthContextType {
   authState: AuthState;
   userInfo: UserProfile | null;
   error: string | null;
+  isAuthenticated: boolean;
   
   // Servicios
   sessionService: SessionService;
@@ -176,10 +177,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [authState]);
 
   const contextValue: AuthContextType = {
-    // Estado centralizado - solo AuthState como fuente de verdad
     authState,
     userInfo,
     error,
+    isAuthenticated: authState === AuthState.AUTHENTICATED,
     
     // Servicios
     sessionService,

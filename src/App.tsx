@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import ExplorePage from "./pages/ExplorePage";
 import FavoritesPage from "./pages/FavoritesPage";
 import RecipesPage from "./pages/RecipesPage";
+import RecipeDetailPage from "./pages/RecipeDetailPage";
 import CameraPage from "./pages/CameraPage";
 import ProductDetail from "./pages/ProductDetail";
 import AuthCallback from "./pages/AuthCallback";
@@ -38,6 +39,7 @@ const App = () => (
                   <Route path="/explore" element={<ExplorePage/>}/>
                   <Route path="/favorites" element={<FavoritesPage/>}/>
                   <Route path="/recipes" element={<RecipesPage/>}/>
+                  <Route path="/recipe/:recipeId" element={<RecipeDetailPage/>}/>
                   <Route path="/blog" element={<BlogPage/>}/>
                   <Route path="/blog/:slug" element={<BlogPostPage/>}/>
                   <Route path="/camera" element={<CameraPage/>}/>
