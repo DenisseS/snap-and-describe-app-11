@@ -11,7 +11,6 @@ import AddToShoppingListModal from '@/components/AddToShoppingListModal';
 import { Recipe, getAllRecipes, recipeCategories } from '@/data/recipes';
 import { useShoppingLists } from '@/hooks/useShoppingLists';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
-import { useAuthentication } from '@/hooks/useAuthentication';
 import { useToast } from '@/hooks/use-toast';
 
 const RecipeDetailPage: React.FC = () => {
@@ -19,7 +18,6 @@ const RecipeDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { toast } = useToast();
-  const { isAuthenticated } = useAuthentication();
   const { lists } = useShoppingLists();
   const { addIngredientsToList, createListWithIngredients, isProcessing } = useRecipeActions();
 
@@ -70,14 +68,6 @@ const RecipeDetailPage: React.FC = () => {
   };
 
   const handleAddToShoppingList = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: t('authRequired', 'Autenticación requerida'),
-        description: t('authRequiredToAddToList', 'Inicia sesión para añadir ingredientes a tus listas'),
-        variant: 'destructive'
-      });
-      return;
-    }
     setShowAddModal(true);
   };
 
